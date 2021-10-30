@@ -1,0 +1,53 @@
+{
+  "name": "css-module-types-and-map",
+  "displayName": "css-module-types-and-map",
+  "description": "A simple extension for generating TypeScript definition file and source map file for css modules.",
+  "version": "0.1.0",
+  "publisher": "DarrenDanielDay",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DarrenDanielDay/css-module-types-and-map"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:css"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "css-module-types-and-map.generate",
+        "title": "CSS Module Types and Map: Generate files"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run build",
+    "compile": "tsc -p ./",
+    "build": "rimraf ./out && esbuild ./src/extension.ts --bundle --outfile=./out/extension.js --platform=node --format=cjs --minify --tree-shaking=true --external:vscode",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile && yarn run lint",
+    "lint": "tsc --noEmit -p ./ && eslint src --ext ts",
+    "bundle": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.60.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "css-what": "^5.1.0",
+    "esbuild": "^0.13.11",
+    "eslint": "^7.19.0",
+    "postcss": "^8.3.11",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.4",
+    "vlq": "^2.0.4",
+    "vsce": "^1.100.2",
+    "vscode-test": "^1.5.0"
+  }
+}
