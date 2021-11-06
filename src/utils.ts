@@ -35,7 +35,7 @@ export function getPositionOfOffset(text: string, offset: number): Position {
 export function positionAdd(base: Position, delta: Position): Position {
   return {
     line: base.line + delta.line,
-    offset: delta.offset,
+    offset: delta.line === 0 ? base.offset + delta.offset : delta.offset,
   };
 }
 
@@ -55,4 +55,12 @@ export async function writeFileText(uri: vscode.Uri, content: string) {
 
 export function isCSSModule(uri: vscode.Uri) {
   return path.parse(uri.fsPath).base.endsWith(".module.css");
+}
+
+const output = vscode.window.createOutputChannel("CSS Modules Types & Map");
+
+export function debugLog(...args: unknown[]) {
+  for (const arg of args) {
+    output.appendLine(`${arg}`);
+  }
 }

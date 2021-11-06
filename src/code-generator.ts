@@ -12,14 +12,6 @@ export interface SingleFileSourceMap3Object {
   names: string[];
   mappings: string;
 }
-
-type MappingToken = [
-  generatedCodeColumn: number,
-  indexOfSources: number,
-  sourceCodeLine: number,
-  sourceCodeColumn: number,
-  symbolRenameIndex?: number
-];
 const specials = new Set(["_", "-"]);
 
 export async function generateTypesCode(uri: vscode.Uri): Promise<void> {
@@ -73,13 +65,13 @@ export async function generateTypesCode(uri: vscode.Uri): Promise<void> {
   addLineAndMapping(`declare const ${variableName}: {`);
   const linePrefix = "  readonly ";
   analysed.forEach(([name, className]) => {
-    const { firstDefinition } = className;
+    const { def } = className;
     const hasSpecial = [...name].some((char) => specials.has(char));
     const columnOffset = linePrefix.length + +hasSpecial;
     addLineAndMapping(
       `${linePrefix}${hasSpecial ? `"${name}"` : name}: string;`,
       columnOffset,
-      firstDefinition
+      def
     );
   });
   addLineAndMapping("};");
