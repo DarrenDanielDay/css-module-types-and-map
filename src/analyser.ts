@@ -78,8 +78,8 @@ function analyseRule(rule: PostCSS.Rule) {
 function analyseAtRule(atRule: PostCSS.AtRule) {
   const names: ExportedName[] = [];
   if (atRule.name === "value" && atRule.params) {
-    const importReg = /(.+) from .+/is;
-    const varReg = /([a-z][a-z0-9]*)\s*:.+/is;
+    const importReg = /(.+)\s+from\s+.+/is;
+    const varReg = /([a-z_-][a-z0-9_-]*)\s*:.+/is;
     const importMatch = importReg.exec(atRule.params);
     const varMatch = varReg.exec(atRule.params);
     if (importMatch) {
@@ -93,7 +93,7 @@ function analyseAtRule(atRule: PostCSS.AtRule) {
         []
       );
       importPatterns.forEach((pattern, i) => {
-        const nameReg = /(.+as\s+)?(.+)/i;
+        const nameReg = /(.+\s+as\s+)?(.+)/i;
         const nameMatch = nameReg.exec(pattern);
         if (nameMatch) {
           const [, rename, finalName] = nameMatch;
