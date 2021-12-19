@@ -1,5 +1,6 @@
 {
   "name": "css-module-types-and-map",
+  "icon": "logo.png",
   "displayName": "css-module-types-and-map",
   "description": "A simple extension for generating TypeScript definition file and source map file for css modules.",
   "version": "0.2.0",
