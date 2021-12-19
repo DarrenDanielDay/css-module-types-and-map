@@ -2,7 +2,7 @@
   "name": "css-module-types-and-map",
   "displayName": "css-module-types-and-map",
   "description": "A simple extension for generating TypeScript definition file and source map file for css modules.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "DarrenDanielDay",
   "repository": {
     "type": "git",
@@ -22,7 +22,11 @@
     "commands": [
       {
         "command": "css-module-types-and-map.generate",
-        "title": "CSS Module Types and Map: Generate files"
+        "title": "CSS Module Types and Map: Generate for current css module file"
+      },
+      {
+        "command": "css-module-types-and-map.generate-all",
+        "title": "CSS Module Types and Map: Generate for workspace"
       }
     ]
   },
