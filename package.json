@@ -38,7 +38,7 @@
       },
       {
         "command": "css-module-types-and-map.generate-for-folder",
-        "title": "CSS Module Types and Map: Generate for workspace"
+        "title": "CSS Module Types and Map: Generate for folder"
       },
       {
         "command": "css-module-types-and-map.add-to-gitignore",

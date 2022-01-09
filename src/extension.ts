@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
           uri instanceof vscode.Uri
             ? uri
             : await askFolder(context, {
-                openLabel: "Pick a folder for generating code.",
+                title: "Pick a folder for generating code...",
               });
         if (uri) {
           const files = await getCSSModuleFiles(uri);
@@ -50,8 +50,11 @@ export function activate(context: vscode.ExtensionContext) {
           uri instanceof vscode.Uri
             ? uri
             : await askFile({
-                openLabel:
-                  "Pick a '.gitignore' file for adding ignore pattern.",
+                title: "Pick a '.gitignore' file for adding ignore pattern...",
+                filters: {
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
+                  "Git Ignore file": ["gitignore"],
+                },
               });
         if (uri) {
           await addToIgnore(uri, context);
