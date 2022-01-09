@@ -2,7 +2,7 @@
   "name": "css-module-types-and-map",
   "icon": "logo.png",
   "displayName": "CSS Module types and map",
-  "description": "A simple extension for generating TypeScript definition file and source map file for css modules.",
+  "description": "A simple extension for generating TypeScript definition files and source map files for css modules.",
   "version": "1.0.0",
   "publisher": "DarrenDanielDay",
   "repository": {
@@ -53,7 +53,8 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "tsc --noEmit -p ./ && eslint src --ext ts",
-    "bundle": "vsce package"
+    "bundle": "vsce package",
+    "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
     "@types/node": "^12.11.7",
