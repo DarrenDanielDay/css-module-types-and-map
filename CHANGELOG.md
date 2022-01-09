@@ -4,6 +4,12 @@ All notable changes to the "css-module-types-and-map" extension will be document
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## 2022.1.9
 
 - Initial release
+
+### Feature
+
+- Generate TypeScript definition and source map code for `css module` \(`*.module.css`\).
+- Naming export variable with `camelCased` file name.
+- Support to add generated files to `.gitignore`.

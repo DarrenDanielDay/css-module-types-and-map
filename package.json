@@ -1,9 +1,9 @@
 {
   "name": "css-module-types-and-map",
   "icon": "logo.png",
-  "displayName": "css-module-types-and-map",
+  "displayName": "CSS Module types and map",
   "description": "A simple extension for generating TypeScript definition file and source map file for css modules.",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "publisher": "DarrenDanielDay",
   "repository": {
     "type": "git",
@@ -15,8 +15,19 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "css",
+    "css-module",
+    "css module",
+    "css-modules",
+    "css modules",
+    "typescript"
+  ],
   "activationEvents": [
-    "onLanguage:css"
+    "onLanguage:css",
+    "onCommand:css-module-types-and-map.generate",
+    "onCommand:css-module-types-and-map.generate-for-folder",
+    "onCommand:css-module-types-and-map.add-to-gitignore"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -26,8 +37,12 @@
         "title": "CSS Module Types and Map: Generate for current css module file"
       },
       {
-        "command": "css-module-types-and-map.generate-all",
+        "command": "css-module-types-and-map.generate-for-folder",
         "title": "CSS Module Types and Map: Generate for workspace"
+      },
+      {
+        "command": "css-module-types-and-map.add-to-gitignore",
+        "title": "CSS Module Types and Map: Add generated files to `.gitignore`"
       }
     ]
   },
@@ -45,6 +60,7 @@
     "@types/vscode": "^1.60.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
+    "camelcase": "^6.3.0",
     "css-what": "^5.1.0",
     "esbuild": "^0.13.11",
     "eslint": "^7.19.0",

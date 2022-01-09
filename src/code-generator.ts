@@ -3,7 +3,7 @@ import * as sourcemap from "source-map";
 import { analyse } from "./analyser";
 import { LF, Position, readFileAsText, writeFileText } from "./utils";
 import * as path from "path";
-
+import * as camelcase from "camelcase";
 export interface SingleFileSourceMap3Object {
   version: 3;
   file: string;
@@ -60,7 +60,8 @@ export async function generateTypesCode(uri: vscode.Uri): Promise<void> {
       }
     };
   })();
-  const variableName = "styles";
+  const fileName = path.parse(uri.path).name;
+  const variableName = camelcase(fileName.replace(".module", ""));
   addLineAndMapping("// This file is generated. NEVER MODIFY IT!");
   addLineAndMapping(`declare const ${variableName}: {`);
   const linePrefix = "  readonly ";
@@ -84,4 +85,23 @@ export async function generateTypesCode(uri: vscode.Uri): Promise<void> {
     writeFileText(dtsUri, dtsCode),
     writeFileText(sourceMapUri, sourceMapCode),
   ]);
+}
+const pattern = `*.module.css.d.ts
+*.module.css.d.ts.map`;
+export async function addToIgnore(
+  uri: vscode.Uri,
+  context: vscode.ExtensionContext
+) {
+  const text = await readFileAsText(uri);
+  if (text.includes(pattern)) {
+    return;
+  }
+  const ignoreCode = `# Generated file of vscode extension "${context.extension.id}":
+${pattern}`;
+  await writeFileText(
+    uri,
+    `${text}
+
+${ignoreCode}`
+  );
 }

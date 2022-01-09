@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as util from "util";
 import * as vscode from "vscode";
-const { fs, getConfiguration } = vscode.workspace;
+const { fs } = vscode.workspace;
 export interface Position {
   /**
    * zero-based index
@@ -62,29 +62,36 @@ export async function isCSSModule(uri: vscode.Uri) {
 }
 
 const lastUsedFolder = "css-module-types-and-map.last-used-folder";
-export async function askFolder(context: vscode.ExtensionContext) {
+export async function askFolder(context: vscode.ExtensionContext, config?: vscode.OpenDialogOptions) {
   const current = vscode.workspace.workspaceFolders?.[0]?.uri;
-  if (!current) {
-    vscode.window.showWarningMessage("Please open a workspace folder.");
-    return undefined;
-  }
-  const input = await vscode.window.showInputBox({
-    value: context.globalState.get(lastUsedFolder) ?? "",
-    prompt: "provide a folder",
+  const lastSelected = context.globalState.get(lastUsedFolder);
+  const defaultUri =
+    typeof lastSelected === "string" ? vscode.Uri.file(lastSelected) : current;
+  const picked = await vscode.window.showOpenDialog({
+    ...config,
+    canSelectFolders: true,
+    canSelectFiles: false,
+    canSelectMany: false,
+    defaultUri,
   });
-  if (input) {
-    try {
-      const result = vscode.Uri.joinPath(current, input);
-      const { type } = await fs.stat(result);
-      if (type === vscode.FileType.Directory) {
-        context.globalState.update(lastUsedFolder, input);
-        return result;
-      }
-    } catch (error) {
-      vscode.window.showErrorMessage(`'${input}' is not a valid folder.`);
-      return undefined;
-    }
+  const result = picked?.[0];
+  if (result instanceof vscode.Uri) {
+    await context.globalState.update(lastUsedFolder, result.fsPath);
   }
+  return result;
+}
+
+export async function askFile(config?: vscode.OpenDialogOptions) {
+  const current = vscode.workspace.workspaceFolders?.[0]?.uri;
+  const defaultUri = current && vscode.Uri.joinPath(current, '.gitignore');
+  const picked = await vscode.window.showOpenDialog({
+    ...config,
+    canSelectFiles: true,
+    canSelectMany: false,
+    canSelectFolders: false,
+    defaultUri
+  });
+  return picked?.[0];
 }
 
 export async function getCSSModuleFiles(
@@ -98,7 +105,7 @@ export async function getCSSModuleFiles(
       if (childType === vscode.FileType.Directory) {
         await dfs(childUri);
       }
-      if (childType === vscode.FileType.File && await isCSSModule(childUri)) {
+      if (childType === vscode.FileType.File && (await isCSSModule(childUri))) {
         result.push(childUri);
       }
     }
