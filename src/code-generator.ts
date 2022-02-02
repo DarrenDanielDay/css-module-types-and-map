@@ -3,7 +3,7 @@ import * as sourcemap from "source-map";
 import { analyse } from "./analyser";
 import { LF, Position, readFileAsText, writeFileText } from "./utils";
 import * as path from "path";
-import * as camelcase from "camelcase";
+import camelcase from "camelcase";
 export interface SingleFileSourceMap3Object {
   version: 3;
   file: string;
